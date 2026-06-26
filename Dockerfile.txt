@@ -1,0 +1,20 @@
+# Dockerfile - Mengemas Microservice ke dalam Container (TM9 & TM11)
+FROM python:3.9-slim
+
+WORKDIR /app
+
+# Install library yang dibutuhkan
+COPY requirements.txt .
+RUN pip install -r requirements.txt
+
+# Pindahkan artefak AI dan kode API ke dalam Container
+COPY app.py .
+COPY ai_model.pkl .
+COPY scaler.pkl .
+COPY pca.pkl .
+
+# Ekspos port Microservice
+EXPOSE 5000
+
+# Jalankan Utility Service
+CMD ["python", "app.py"]
